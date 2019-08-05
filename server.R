@@ -10,6 +10,15 @@ function(input, output, session){
     df <- data.table(read.xls("data.xlsx"))
     data <- reactive(df[Stars == input$rating & Category == input$type])
      
+    observeEvent(input$help,
+                 introjs(session, options = list("nextLabel"="next",
+                                                 "prevLabel"="back",
+                                                 "skipLabel"="skip"),
+                         events = list("oncomplete"=I('alert(" It\'s over")')))
+    )
+
+
+    
     output$map <- renderLeaflet({
         berlin <- leaflet() %>%
             addTiles() %>%  # Add default OpenStreetMap map tiles
